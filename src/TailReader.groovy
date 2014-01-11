@@ -9,6 +9,8 @@ class TailReader
 {
     boolean stop = false
 
+    String [] blacklist = ["josh"]
+
     public void stop()
     {
         stop = true
@@ -29,14 +31,14 @@ class TailReader
                 while (!stop)
                 {
                     line = reader.readLine()
-                    if (line)
+                    for (String word : blacklist)
                     {
-                        closure.call(line)
+                        if (line?.indexOf(word) > -1)
+                        {
+                            closure.call(line)
+                        }
                     }
-                    else
-                    {
-                        Thread.currentThread().sleep(5000)
-                    }
+                    Thread.currentThread().sleep(2000)
                 }
 
             }

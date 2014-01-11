@@ -1,4 +1,4 @@
 def reader = new TailReader()
 
-File file = new File('/tmp/foo.log');
-reader.tail(file, { "terminal-notifier -message $it".execute() })
+reader.tail(new File('/tmp/foo.log'), { "terminal-notifier -title log-checker -subtitle foo.log -message $it".execute() })
+reader.tail(new File('/tmp/bar.log'), { "terminal-notifier -title log-checker -subtitle bar.log -message $it".execute() })
