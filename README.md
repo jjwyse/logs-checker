@@ -8,19 +8,19 @@ setup
 * If you don't have the command-line tool 'terminal-notifier' installed, do so <a href="https://github.com/alloy/terminal-notifier" target="_blank">here</a>
 * Make sure the 'terminal-notifier' tool is on your $PATH
 * Create the logs-checker config file here $HOME/.logs-checker/config.groovy - below is an example
+  * Note: if you do not create this directory and/or file, then the first time the script is run it will create a default configuration for you
 
 ```
 config {
   files = [
     [
       'location': '/tmp/bar.log',
-      'exceptions': 'bar|foo'
+      'exceptions': 'bar'
     ],
     [
       'location': '/tmp/foo.log',
-      'exceptions': 'bar|foo|exception|NullPointerException'
+      'exceptions': 'foo|bar'
     ]
   ]
 }
-
 ```

@@ -4,7 +4,27 @@
 def env = System.getenv()
 
 // load config from $HOME/.logs-checker directory
-def config = new ConfigSlurper().parse(new File(env['HOME'] + '/.logs-checker/config.groovy').text)
+File configFileDirectory = new File(env['HOME'] + '/.logs-checker/')
+File configFile = new File(configFileDirectory, 'config.groovy')
+if (!configFile.exists())
+{
+    configFileDirectory.mkdirs()
+    configFile = new File(configFileDirectory, 'config.groovy')
+    configFile << "config {\n" +
+            "  files = [\n" +
+            "    [\n" +
+            "      'location': '/tmp/bar.log', \n" +
+            "      'exceptions': 'bar'\n" +
+            "    ],\n" +
+            "    [\n" +
+            "      'location': '/tmp/foo.log',\n" +
+            "      'exceptions': 'foo|bar'\n" +
+            "    ]\n" +
+            "  ]\n" +
+            "}"
+}
+
+def config = new ConfigSlurper().parse(configFile.text)
 
 // for each file in the config start up a tail thread
 config.config.files.each() { file ->
@@ -28,7 +48,8 @@ config.config.files.each() { file ->
                 {
                     if (line?.contains(word))
                     {
-                        String command = "terminal-notifier -title log-checker -subtitle " + logFile.path + " -message " + line
+                        String command = "terminal-notifier -title log-checker -subtitle " + logFile.path + " " +
+                                "-message " + line
                         command.execute()
                     }
                 }
