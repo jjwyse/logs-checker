@@ -5,4 +5,4 @@ strings appears, it will send a desktop notification
 
 setup
 ==============
-* If you don't have 'terminal-notifier' installed, do so <a href="https://github.com/alloy/terminal-notifier">here</a>
+* If you don't have 'terminal-notifier' installed, do so <a href="https://github.com/alloy/terminal-notifier" target="_blank">here</a>
