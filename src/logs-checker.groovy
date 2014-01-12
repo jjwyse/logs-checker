@@ -8,15 +8,11 @@ def config = new ConfigSlurper().parse(new File(env['HOME'] + '/.logs-checker/co
 
 // for each file in the config start up a tail thread
 config.config.files.each() { file ->
-    String exceptions = file.exceptions
-    String command = "terminal-notifier -title log-checker -subtitle " + file.location + " -message Exception Found " +
-            "-sound default"
 
+    // load config values
+    String exceptions = file.exceptions
     File logFile = new File(file.location)
-    String [] blacklist = exceptions.split('\\|')
-    def closure = {
-        command.execute()
-    }
+
     def runnable = {
         def reader
 
@@ -25,16 +21,15 @@ config.config.files.each() { file ->
             reader = logFile.newReader()
             reader.skip(logFile.length())
 
-            def line
-
             while (true)
             {
-                line = reader.readLine()
-                for (String word : blacklist)
+                def line = reader.readLine()
+                for (String word : exceptions.split('\\|'))
                 {
                     if (line?.contains(word))
                     {
-                        closure.call(line)
+                        String command = "terminal-notifier -title log-checker -subtitle " + logFile.path + " -message " + line
+                        command.execute()
                     }
                 }
                 Thread.currentThread().sleep(2000)
