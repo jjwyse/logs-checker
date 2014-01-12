@@ -1,12 +1,18 @@
+#!/usr/bin/env groovy
+
 // load system variables
 def env = System.getenv()
 
-// load config
-def config = new ConfigSlurper("files").parse(new File(env['HOME'] + '/.log-checker/config.groovy').toURI().toURL())
-
-print config
+// load config from $HOME/.logs-checker directory
+def config = new ConfigSlurper().parse(new File(env['HOME'] + '/.log-checker/config.groovy').text)
 
 // for each file in the config start up a tail thread
 def reader = new TailReader()
-reader.tail(new File('/tmp/foo.log'), { "terminal-notifier -title log-checker -subtitle foo.log -message $it".execute() })
-reader.tail(new File('/tmp/bar.log'), { "terminal-notifier -title log-checker -subtitle bar.log -message $it".execute() })
+config.config.files.each() { file ->
+    String exceptions = file.exceptions
+    String command = "terminal-notifier -title log-checker -subtitle " + file.location + " -message Exception Found"
+    def closure = {
+        command.execute()
+    }
+    reader.tail(new File(file.location), exceptions.split("\\|"), closure)
+}

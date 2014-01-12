@@ -9,14 +9,12 @@ class TailReader
 {
     boolean stop = false
 
-    String [] blacklist = ["josh"]
-
     public void stop()
     {
         stop = true
     }
 
-    public void tail(File file, def closure)
+    public void tail(File file, String [] blacklist, def closure)
     {
         def runnable = {
             def reader
@@ -33,7 +31,7 @@ class TailReader
                     line = reader.readLine()
                     for (String word : blacklist)
                     {
-                        if (line?.indexOf(word) > -1)
+                        if (line?.contains(word))
                         {
                             closure.call(line)
                         }
