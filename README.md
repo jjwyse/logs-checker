@@ -6,6 +6,7 @@ strings appears, it will send a desktop notification
 setup
 ==============
 * If you don't have the command-line tool 'terminal-notifier' installed, do so <a href="https://github.com/alloy/terminal-notifier" target="_blank">here</a>
+* Make sure the 'terminal-notifier' tool is on your $PATH
 * Create the logs-checker config file here $HOME/.logs-checker/config.groovy - below is an example
 
 ```
