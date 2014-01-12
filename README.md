@@ -1,6 +1,6 @@
 logs-checker
 ==============
-Mac desktop application that will monitor a given set of files for a given set of strings and when one of those
+Groovy script that will monitor a given set of files for a given set of strings and when one of those
 strings appears, it will send a desktop notification
 
 setup
