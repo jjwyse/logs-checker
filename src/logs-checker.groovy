@@ -57,6 +57,9 @@ config.config.files.each() { file ->
             }
 
         }
+        catch (FileNotFoundException fileNotFoundException) {
+           System.out << "Did not find file $logFile.name\n"
+        }
         finally
         {
             reader?.close()
